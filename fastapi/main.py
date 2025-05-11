@@ -57,3 +57,4 @@ async def read_shipments(db:db_dependency, skip: int = 0, limit : int = 20):
     shipments = db.query(models.Shipment).offset(skip).limit(limit).all()
     return shipments
     
+

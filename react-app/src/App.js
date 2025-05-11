@@ -2,25 +2,27 @@ import {useState, useEffect} from 'react'
 import api from './api'
 
 
-
 function App() {
   const [shipments, setShipments] = useState([]);
   const [formData, setFormData] = useState({
-    email: '', 
+    email: '',
     bl_num : '',
     shipper : '',
     is_released : false,
     created_at: ''
   });
+  
 
   const fetchShipments = async ()=> {
     const response = await api.get('/shipments/');
     setShipments(response.data);
   };
 
+
   useEffect(() => {
     fetchShipments();
   }, []);
+
 
   const handleInputChenge = (event)=> {
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
@@ -30,6 +32,7 @@ function App() {
     });
   };
 
+
   const handleFormSubmit = async (event)=>{
     event.prevenDefault();
     await api.post('/shipments/');
@@ -37,10 +40,11 @@ function App() {
       email: '',
       bl_num : '',
       shipper : '',
-      is_released : false,
+      is_released : false ? "Yes":"No",
       created_at: ''
     });
   };
+
 
   return (
     <div>
@@ -58,35 +62,35 @@ function App() {
             <label htmlFor='email' className='form-label'>
               Email
             </label>
-            <input type='text' name='email' className='form-control' id='email' onChange={handleInputChenge} value={formData.email}/>
+            <input type='text' name='email' autoComplete='off' className='form-control' id='email' onChange={handleInputChenge} value={formData.email}/>
           </div>
 
           <div className='mb-3 '>
             <label htmlFor='bl_num' className='form-label'>
               Bill of loading
             </label>
-            <input type='text' name='bl_num' className='form-control' id='bl_num' onChange={handleInputChenge} value={formData.bl_num}/>
+            <input type='text' autoComplete='off' name='bl_num' className='form-control' id='bl_num' onChange={handleInputChenge} value={formData.bl_num}/>
           </div>
 
           <div className='mb-3 '>
             <label htmlFor='shipper' className='form-label'>
-              Shipper
+              Shipper:
             </label>
-            <input type='text' name='shipper' className='form-control' id='shipper' onChange={handleInputChenge} value={formData.shipper}/>
+            <input type='text' name='shipper' autoComplete='off' className='form-control' id='shipper' onChange={handleInputChenge} value={formData.shipper}/>
           </div>
 
           <div className='mb-3 '>
             <label htmlFor='is_released' className='form-label'>
-              Is_released <br/>
+              Is releasd:
             </label>
-            <input type='checkbox' name='is-released' id='is_released' onChange={handleInputChenge} value={formData.is_released}/>
+            <input type='checkbox' name='is_released' autoComplete='off'  id='is_released' onChange={handleInputChenge} value={formData.is_released}/>
           </div>
 
           <div className='mb-3 '>
             <label htmlFor='created_at' className='form-label'>
-              Created at
-            </label>
-            <input type='text' name='created_at' id='created_at' onChange={handleInputChenge} value={formData.created_at}/>
+              Created at: 
+            </label> 
+            <input type='text' autoComplete='off' className='form-control' name='created_at' id='created_at' onChange={handleInputChenge} value={formData.created_at}/>
           </div>
 
           <button type="submit" className='btn btn-primary'>
@@ -110,7 +114,7 @@ function App() {
                 <td>{shipment.email}</td>
                 <td>{shipment.bl_num}</td>
                 <td>{shipment.shipper}</td>
-                <td>{shipment.is_released}</td>
+                <td>{shipment.is_released? "Yes": "No"}</td>
                 <td>{shipment.created_at}</td>
               </tr>
             ))}
@@ -119,7 +123,7 @@ function App() {
       </div>
     </div>
   )
-  
+
 }
 
 export default App;
